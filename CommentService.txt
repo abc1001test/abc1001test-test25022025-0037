@@ -1,0 +1,23 @@
+package com.socio.service;
+
+import com.socio.model.Comment;
+import com.socio.model.Post;
+import com.socio.model.User;
+import com.socio.repository.CommentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CommentService {
+    @Autowired
+    private CommentRepository commentRepository;
+
+    public Comment addComment(User user, Post post, String content) {
+        Comment comment = new Comment();
+        comment.setUser(user);
+        comment.setPost(post);
+        comment.setContent(content);
+        comment.setCreatedAt(new Date());
+        return commentRepository.save(comment);
+    }
+}

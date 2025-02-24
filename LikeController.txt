@@ -1,0 +1,35 @@
+package com.socio.controller;
+
+import com.socio.model.Like;
+import com.socio.model.Post;
+import com.socio.model.User;
+import com.socio.service.LikeService;
+import com.socio.service.PostService;
+import com.socio.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/likes")
+public class LikeController {
+    @Autowired
+    private LikeService likeService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private PostService postService;
+
+    @PostMapping("/like")
+    public Like likePost(@RequestParam Long userId, @RequestParam Long postId) {
+        User user = userService.findUserById(userId);
+        Post post = postService.getPostById(postId);
+        return likeService.likePost(user, post);
+    }
+
+    @GetMapping("/count/{postId}")
+    public int getLikeCount(@PathVariable Long postId) {
+        return likeService.getLikeCountForPost(postId);
+    }
+}

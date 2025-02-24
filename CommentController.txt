@@ -1,0 +1,30 @@
+package com.socio.controller;
+
+import com.socio.model.Comment;
+import com.socio.model.Post;
+import com.socio.model.User;
+import com.socio.service.CommentService;
+import com.socio.service.PostService;
+import com.socio.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/comments")
+public class CommentController {
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private PostService postService;
+
+    @PostMapping("/add")
+    public Comment addComment(@RequestParam Long userId, @RequestParam Long postId, @RequestParam String content) {
+        User user = userService.findUserById(userId);
+        Post post = postService.getPostById(postId);
+        return commentService.addComment(user, post, content);
+    }
+}

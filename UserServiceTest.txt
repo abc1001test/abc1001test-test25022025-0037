@@ -1,0 +1,32 @@
+package com.socio.service;
+
+import com.socio.model.User;
+import com.socio.repository.UserRepository;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
+@SpringBootTest
+public class UserServiceTest {
+    @Mock
+    private UserRepository userRepository;
+
+    @InjectMocks
+    private UserService userService;
+
+    @Test
+    public void testRegisterUser() {
+        User user = new User();
+        user.setEmail("test@socio.com");
+        user.setPassword("password");
+
+        when(userRepository.save(user)).thenReturn(user);
+
+        User savedUser = userService.registerUser(user);
+        assertEquals("test@socio.com", savedUser.getEmail());
+    }
+}

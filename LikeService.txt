@@ -1,0 +1,26 @@
+package com.socio.service;
+
+import com.socio.model.Like;
+import com.socio.model.Post;
+import com.socio.model.User;
+import com.socio.repository.LikeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class LikeService {
+    @Autowired
+    private LikeRepository likeRepository;
+
+    public Like likePost(User user, Post post) {
+        Like like = new Like();
+        like.setUser(user);
+        like.setPost(post);
+        like.setCreatedAt(new Date());
+        return likeRepository.save(like);
+    }
+
+    public int getLikeCountForPost(Long postId) {
+        return likeRepository.countByPostId(postId);
+    }
+}

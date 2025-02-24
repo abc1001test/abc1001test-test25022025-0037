@@ -1,0 +1,28 @@
+package com.socio.model;
+
+import lombok.*;
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Group {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private boolean isPrivate;
+
+    @ManyToOne
+    @JoinColumn(name = "creator_id")
+    private User creator;
+
+    @ManyToMany
+    private Set<User> members;
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    private Set<Post> posts;
+}
